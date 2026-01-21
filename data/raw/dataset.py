@@ -14,6 +14,9 @@ FILE_NAME = "github_issues.csv"
 LOCAL_FILE_PATH = os.path.join(LOCAL_DATA_DIR, FILE_NAME) #coloca o path absoluto com o caminho do arquivo data/raw/github-issues.csv
 nltk.download('stopwords') #carrego stopwrds para filtragem NLP nas funcoes abaixo
 
+
+##CONSERTAR ESSA PARTE, NAO ESTÁ ALOCANDO CORRETAMENTE A BASE DE DADOS NA PASTA
+
 def carregar_dados():
     if not os.path.exists(LOCAL_DATA_DIR): #criando pasta do arquivo dentro do projeto
         os.makedirs(LOCAL_DATA_DIR)

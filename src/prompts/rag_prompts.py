@@ -1,10 +1,10 @@
 
 def build_prompts(context:str, question:str)->str:
-    prompt = f"""
-    You are an AI assistant specialized in analyzing technical documentation.
+        return f"""
+    You are a technical assistant.
 
-    Use ONLY the information provided in the context below to answer the user's question.
-    If the answer is not clearly supported by the context, say that there is not enough information to answer.
+    Answer the question using ONLY the context below.
+    If the context is insufficient, say so clearly.
 
     Context:
     {context}
@@ -13,5 +13,4 @@ def build_prompts(context:str, question:str)->str:
     {question}
 
     Answer:
-    """
-    return prompt.strip()
+    """.strip()

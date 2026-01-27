@@ -1,25 +1,23 @@
-import google.generativeai as genai
+import google.genai as genai
 import os
+import time
 
-def generate_answer(prompt : str) -> str:
-
+def generate_answer(prompt: str, max_retries: int = 2) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found")
+        raise ValueError("GOOGLE_API_KEY não encontrada.")
 
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key) # type: ignore
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    for attempt in range(max_retries + 1):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=prompt
+            )
+            return response.text.strip() # type: ignore
 
-    # DEBUG opcional
-    # print(response)
+        except Exception as e:
+            return f"Erro ao gerar resposta: {e}"
 
-    if hasattr(response, "text") and response.text:
-        return response.text.strip()
-
-    # fallback para estrutura interna
-    try:
-        return response.candidates[0].content.parts[0].text.strip()
-    except Exception:
-        raise RuntimeError("Gemini returned no usable text")
+    return "Falha ao gerar resposta após múltiplas tentativas."

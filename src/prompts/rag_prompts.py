@@ -1,16 +1,17 @@
+def build_prompts(context: str, question: str) -> str:
+    return f"""
+You are a technical assistant.
 
-def build_prompts(context:str, question:str)->str:
-        return f"""
-    You are a technical assistant.
+Answer the question using the context below.
+You may infer patterns or repeated issues IF they are clearly present in the context.
+Do NOT invent errors that are not mentioned.
+If the context truly lacks information, say so.
 
-    Answer the question using ONLY the context below.
-    If the context is insufficient, say so clearly.
+Context:
+{context}
 
-    Context:
-    {context}
+Question:
+{question}
 
-    Question:
-    {question}
-
-    Answer:
-    """.strip()
+Answer:
+""".strip()

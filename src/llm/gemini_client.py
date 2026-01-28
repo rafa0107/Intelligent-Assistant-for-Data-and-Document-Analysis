@@ -12,7 +12,7 @@ def generate_answer(prompt: str, max_retries: int = 2) -> str:
     for attempt in range(max_retries + 1):
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-2.5-flash-lite",
                 contents=prompt
             )
             return response.text.strip() # type: ignore

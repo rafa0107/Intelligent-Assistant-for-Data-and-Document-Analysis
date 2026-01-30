@@ -30,7 +30,7 @@ def carregar_dados():
         shutil.copy(origem, LOCAL_FILE_PATH)
         print(f"Arquivo salvo em: {LOCAL_FILE_PATH}")
 
-    return pd.read_csv(LOCAL_FILE_PATH, nrows=2000)
+    return pd.read_csv(LOCAL_FILE_PATH, nrows=800)
 
 def make_prettier(styler):
     styler.set_caption("Logs do GitHub")

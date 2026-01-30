@@ -1,6 +1,12 @@
 import google.genai as genai
 import os
 import time
+import sys
+
+sys.path.append(os.path.abspath(os.path.join('..', 'src', 'llm')))
+from context_validator import validate_context, static_fallback, insufficient_context_response
+from rag_prompts import classify_question, build_prompt
+
 
 def generate_answer(prompt: str, max_retries: int = 2) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")
@@ -21,3 +27,25 @@ def generate_answer(prompt: str, max_retries: int = 2) -> str:
             return f"Erro ao gerar resposta: {e}"
 
     return "Falha ao gerar resposta após múltiplas tentativas."
+
+def answer_question(question: str, context: str) -> str:
+    # 1. respostas estáticas
+    static = static_fallback(question)
+    if static:
+        return static
+
+    # 2. classificar pergunta
+    question_type = classify_question(question)
+
+    # 3. validar contexto
+    if not validate_context(context):
+        return insufficient_context_response(question_type)
+
+    # 4. construir prompt
+    prompt = build_prompt(
+        context=context,
+        question=question,
+        question_type=question_type
+    )
+
+    return generate_answer(prompt)

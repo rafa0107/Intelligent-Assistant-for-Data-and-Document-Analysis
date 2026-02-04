@@ -9,28 +9,32 @@ from validator import validate_context, static_fallback, insufficient_context_re
 from rag_prompts import classify_question, build_prompt
 from dotenv import load_dotenv
 
-load_dotenv()
-chave_api = os.getenv("GOOGLE_API_KEY")
+from typing import Optional
 
-def generate_answer(prompt: str, max_retries: int = 2) -> str:
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise ValueError("GOOGLE_API_KEY não encontrada.")
+_client: Optional[genai.Client] = None
 
-    client = genai.Client(api_key=api_key) # type: ignore
 
-    for attempt in range(max_retries + 1):
-        try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash-lite",
-                contents=prompt
-            )
-            return response.text.strip() # type: ignore
+def configure_gemini(api_key: str) -> None:
+    global _client
+    _client = genai.Client(api_key=api_key)  # type: ignore
 
-        except Exception as e:
-            return f"Erro ao gerar resposta: {e}"
 
-    return "Falha ao gerar resposta após múltiplas tentativas."
+def generate_answer(prompt: str) -> str:
+    if _client is None:
+        raise RuntimeError(
+            "Cliente Gemini não configurado. "
+            "Chame configure_gemini(api_key) antes."
+        )
+
+    try:
+        response = _client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=prompt
+        )
+        return response.text.strip()  # type: ignore
+
+    except Exception as e:
+        return f"Erro ao gerar resposta: {e}"
 
 def answer_question(question: str, context: str) -> str:
     # 1. respostas estáticas

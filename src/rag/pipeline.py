@@ -28,25 +28,25 @@ def run_rag(
     max_documents: int = 6
 ) -> str:
 
-    # 1️⃣ respostas estáticas
+    #  respostas estáticas
     static = static_fallback(question)
     if static:
         return static
 
-    # 2️⃣ classificar pergunta
+    #  classificar pergunta
     question_type = classify_question(question)
 
-    # 3️⃣ embedding da query
+    #  embedding da query
     query_embedding = encode_query(model, [question]) # type: ignore
 
-    # 4️⃣ similaridade
+    #  similaridade
     scores = cosine_similiarity_func(query_embedding, embeddings).flatten()
 
-    # 5️⃣ top-k
+    #  top-k
     scores_sorted = np.argsort(scores)
     top_indices = top_k_index(top_k, scores_sorted) # type: ignore
 
-    # 6️⃣ limiar semântico
+    #  limiar semântico
     metadata = check_semantic_threshold(
         scores=scores,
         top_indices=top_indices,
@@ -57,23 +57,23 @@ def run_rag(
     if not metadata:
         return insufficient_context_response(question_type)
 
-    # 7️⃣ construir contexto
+    #  construir contexto
     context = context_builder(
         max_context_chars,
         metadata,
         max_documents
     )
 
-    # 8️⃣ validar contexto
+    #  validar contexto
     if not validate_context(context):
         return insufficient_context_response(question_type)
 
-    # 9️⃣ prompt
+    #  prompt
     prompt = build_prompt(
         context=context,
         question=question,
         question_type=question_type
     )
 
-    # 🔟 LLM
+    #  LLM
     return generate_answer(prompt)

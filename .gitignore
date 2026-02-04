@@ -208,3 +208,5 @@ __marimo__/
 
 #arquivo dataset
 data/raw/github_issues.csv
+
+.test_env  

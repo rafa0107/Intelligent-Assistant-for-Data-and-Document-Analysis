@@ -4,9 +4,13 @@ import time
 import sys
 
 sys.path.append(os.path.abspath(os.path.join('..', 'src', 'llm')))
-from context_validator import validate_context, static_fallback, insufficient_context_response
+sys.path.append(os.path.abspath(os.path.join('..', 'src', 'rag')))
+from validator import validate_context, static_fallback, insufficient_context_response
 from rag_prompts import classify_question, build_prompt
+from dotenv import load_dotenv
 
+load_dotenv()
+chave_api = os.getenv("GOOGLE_API_KEY")
 
 def generate_answer(prompt: str, max_retries: int = 2) -> str:
     api_key = os.getenv("GOOGLE_API_KEY")

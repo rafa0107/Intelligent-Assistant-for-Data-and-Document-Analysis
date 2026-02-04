@@ -1,3 +1,29 @@
+def classify_question(question:str)->str:
+    q = question.lower()
+
+    out_of_scope_keywords = [
+        "quantos", "porcentagem", "percentual",
+        "frequência exata", "quantidade",
+        "como corrigir", "como resolver",
+        "causa", "impacto", "solução"
+    ]
+
+    qualitative_keywords = [
+        "mais comuns", "mais registrados",
+        "mais frequentes", "principais"
+    ]
+
+    # Tipo C — fora do escopo
+    if any(k in q for k in out_of_scope_keywords):
+        return "OUT_OF_SCOPE"
+
+    # Tipo B — qualitativa
+    if any(k in q for k in qualitative_keywords):
+        return "QUALITATIVE"
+
+    # Tipo A — direta
+    return "DIRECT"
+
 def validate_context(context: str, min_chars: int = 200) -> bool:
     """
     Verifica se o contexto é minimamente informativo.

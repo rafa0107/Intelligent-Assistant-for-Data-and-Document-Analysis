@@ -8,8 +8,9 @@ import re
 import nltk
 from nltk.corpus import stopwords
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOCAL_DATA_DIR = os.path.join(BASE_DIR)
+LOCAL_DATA_DIR = os.path.join(BASE_DIR, "raw")
 FILE_NAME = "github_issues.csv"
 LOCAL_FILE_PATH = os.path.join(LOCAL_DATA_DIR, FILE_NAME) #coloca o path absoluto com o caminho do arquivo data/raw/github-issues.csv
 nltk.download('stopwords') #carrego stopwrds para filtragem NLP nas funcoes abaixo
@@ -61,3 +62,40 @@ def verifica_frequentes(df, coluna, top_n, idioma='english'):
     palavras_limpas = [p for p in palavras if p not in stops and not p.isdigit()] #limpa as palavras com artigos e mais usadas para complementos
     contagem = Counter(palavras_limpas)
     return contagem.most_common(top_n)
+
+def clean_text(text:str) -> str:
+    if not isinstance(text, str): #typeGuard para garantir que o text é string
+        return ""
+
+    stop_words = set(stopwords.words("english"))
+
+    # Lowercase
+    text = text.lower()
+
+    # Remove URLs
+    text = re.sub(r"http\S+|www\S+", " ", text)
+
+    # Remove HTML
+    text = re.sub(r"<.*?>", " ", text)
+
+    # Remove unicode escape sequences (\x, \u, etc.)
+    text = re.sub(r"\\x[a-f0-9]{0,2}", " ", text)
+    text = re.sub(r"\\u[a-f0-9]{0,4}", " ", text)
+
+    # Remove leftover hex patterns
+    text = re.sub(r"\bx[a-f0-9]{1,2}\b", " ", text)
+
+    # Remove non-letter characters
+    text = re.sub(r"[^a-z\s]", " ", text)
+
+    # Tokenize
+    tokens = text.split()
+
+    # Remove stopwords
+    tokens = [t for t in tokens if t not in stop_words]
+
+    # Remove short tokens (CRITICAL)
+    tokens = [t for t in tokens if len(t) > 2]
+
+    # Normaliza spacos
+    return " ".join(tokens)

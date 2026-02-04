@@ -2,13 +2,9 @@ import google.genai as genai
 import os
 import time
 import sys
-
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'llm')))
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'rag')))
-from validator import validate_context, static_fallback, insufficient_context_response
-from rag_prompts import classify_question, build_prompt
+from src.rag.validator import validate_context, static_fallback, insufficient_context_response
+from src.prompts.rag_prompts import classify_question, build_prompt
 from dotenv import load_dotenv
-
 from typing import Optional
 
 _client: Optional[genai.Client] = None

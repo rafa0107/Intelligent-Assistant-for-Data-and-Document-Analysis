@@ -1,13 +1,7 @@
 import os
 import sys
-
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'llm')))
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'prompts')))
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'rag')))
-
 from typing import Any
-from pipeline import run_rag
-
+from src.rag.pipeline import run_rag
 
 class RAGService:
     def __init__(

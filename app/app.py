@@ -1,17 +1,17 @@
+import os
+import sys
+
+# adiciona a raiz do projeto ao PYTHONPATH
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, ROOT_DIR)
+
 import streamlit as st
 import numpy as np
 import pandas as pd
-import os
-import sys
 from sentence_transformers import SentenceTransformer
 
-# ========= PATHS =========
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(os.path.join(ROOT_DIR, "src", "application"))
-sys.path.append(os.path.join(ROOT_DIR, "src", "llm"))
-
-from rag_service import RAGService  # type: ignore
-from gemini_client import configure_gemini  # type: ignore
+from src.application.rag_service import RAGService
+from src.llm.gemini_client import configure_gemini
 
 
 # ========= CACHE =========

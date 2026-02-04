@@ -11,3 +11,5 @@ tqdm
 
 google-genai
 python-dotenv
+nltk
+kagglehub

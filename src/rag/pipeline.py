@@ -1,20 +1,18 @@
 import numpy as np
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'rag')))
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'llm')))
-sys.path.append(os.path.abspath(os.path.join('..', 'src', 'prompts')))
 
-from retriever import encode_query, cosine_similiarity_func, check_semantic_threshold
-from context_builder import top_k_index, context_builder
-from validator import (
+
+from src.rag.retriever import encode_query, cosine_similiarity_func, check_semantic_threshold
+from src.rag.context_builder import top_k_index, context_builder
+from src.rag.validator import (
     classify_question,
     validate_context,
     static_fallback,
     insufficient_context_response
 )
-from gemini_client import generate_answer
-from rag_prompts import build_prompt
+from src.llm.gemini_client import generate_answer
+from src.prompts.rag_prompts import build_prompt
 
 
 def run_rag(

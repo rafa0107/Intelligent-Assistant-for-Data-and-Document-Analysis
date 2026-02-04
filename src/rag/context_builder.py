@@ -1,6 +1,3 @@
-
-
-
 def context_builder(max_chars, metadata_list, limit) ->str:
     max_chars = 800
 

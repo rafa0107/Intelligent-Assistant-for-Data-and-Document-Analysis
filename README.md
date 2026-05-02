@@ -2,9 +2,21 @@
 
 ## 📌 Visão Geral
 
-Este projeto implementa um **Assistente Inteligente baseado em RAG (Retrieval-Augmented Generation)** para análise de dados e documentos. Ele combina **busca semântica**, **embeddings** e **LLMs (Google Gemini)** para responder perguntas com base em um conjunto de documentos previamente processados.
+Este projeto implementa um **Assistente Inteligente baseado em RAG (Retrieval-Augmented Generation)** para análise de dados e documentos.
+O dataset escolhido para o projeto foi o **GitHub Issues do Kaggle**, e o sistema foi pensado especificamente para utilizá-lo como base de conhecimento para o RAG. 
+Ele combina **busca semântica**, **embeddings** e **LLMs (Google Gemini)** para responder perguntas com base em um conjunto de documentos previamente processados.
 
 A aplicação foi desenvolvida em **Python**, utiliza **Streamlit** como interface web e está preparada para **deploy em ambientes cloud (Streamlit Community Cloud)**.
+
+O sistema é capaz de classificar e responder às consultas dos usuários utilizando diferentes escopos de análise:
+
+→ Consultas Qualitativas: Permite a análise de padrões, temas recorrentes e tendências nos problemas, como identificar os principais erros relatados.
+
+→ Consultas Diretas: Busca extrair respostas pontuais e objetivas diretamente do contexto dos dados.
+
+→ Consultas Fora de Contexto (Out of Scope): Identifica automaticamente perguntas que exigem dados numéricos precisos ou fora da base de conhecimento (como "quantos" ou "percentuais"), evitando alucinações e fornecendo uma resposta padrão informando a limitação dos dados.
+
+⚠️ Nota de Otimização: O pipeline funciona de forma estável para os fluxos descritos, porém ainda não está totalmente otimizado ou estável, podendo ocasionalmente cometer erros ou apresentar variações nas respostas.
 
 ---
 
@@ -231,6 +243,14 @@ Nenhuma variável secreta é obrigatória, pois a API Key é fornecida via UI.
 ## 📄 Licença
 
 Este projeto está licenciado sob a licença **MIT**.
+
+---
+
+## 📄 Demonstração da Aplicação
+
+Abaixo você pode ver o assistente funcionando em tempo real e processando as solicitações:
+
+![Demonstração da Aplicação](assets/demo.gif)
 
 ---
 
